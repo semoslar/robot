@@ -57,36 +57,39 @@ def stochResmiSayiyaCevir(nokta,genislik):
     im1 = resmiBuyut(im1)
 
 
+
     result = pytesseract.image_to_string(im1)
     bekle(0.1)
     result = renameResult(result)
-    while 1:
 
+
+    try:
+         result = int(result)
+    except ValueError:
+        im1 = pyautogui.screenshot(region=(nokta[0]+3, nokta[1], genislik[0], genislik[1]))
+        im1 = resmiBuyut(im1)
+        result = pytesseract.image_to_string(im1)
+        bekle(0.1)
+        result = renameResult(result)
         try:
-            result = int(result)
-        except ValueError:
-
-            im1 = pyautogui.screenshot(region=(nokta[0]+3, nokta[1], genislik[0], genislik[1]))
-            im1 = resmiBuyut(im1)
-
-
-            result = pytesseract.image_to_string(im1)
-            bekle(0.1)
-            result = renameResult(result)
             result = float(result)
+        except ValueError:
+            try:
+                result = float[result[0]]
+            except ValueError:
+                im1.save("C:\\Users\\Administrator\\PycharmProjects\\robot\\hatalı" + result + ".jpg")
 
-            break
-        finally:
+    finally:
+        # Rapor Temp İşlemleri
+        global temp_image
+        temp_image = im1
+        global temp_result
+        temp_result = str(result)
+        return int(result)
 
-            # Rapor Temp İşlemleri
-            global temp_image
-            temp_image = im1
-            global temp_result
-            temp_result = str(result)
 
-            return int(result)
 def raporDöküm():
-    temp_image.save(dir_path + "\\rapor\\" + temp_result + ".jpg")
+    temp_image.save("C:\\Users\\Administrator\\PycharmProjects\\robot\\rapor" + temp_result + ".jpg")
 
 
 def bekle(sleep_time = 5):
@@ -139,6 +142,7 @@ def pozisyonTürüBelirle():
 if __name__ == '__main__':
 
     mouse = Controller()
+    mouseGotur(stoch_nokta,mouse)
     sayac = 0
 
     while True:
