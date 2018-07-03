@@ -75,7 +75,7 @@ def stochResmiSayiyaCevir(nokta,genislik):
             result = float(result)
         except ValueError:
             try:
-                result = float[result[0]]
+                result = float(result[0])
             except ValueError:
                 im1.save("C:\\Users\\Administrator\\PycharmProjects\\robot\\hatalı" + result + ".jpg")
 
